@@ -122,6 +122,11 @@ dist
 # TernJS port file
 .tern-port
 
+# Secrets — Blynk tokens / Wi-Fi creds
+firmware/**/secrets.h
+secrets.h
+.env
+
 # Stores Visual Studio Code versions used for testing Visual Studio Code extensions
 .vscode-test
 
