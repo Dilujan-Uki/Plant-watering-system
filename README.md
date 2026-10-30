@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Platform: ESP32](https://img.shields.io/badge/Platform-ESP32-blue.svg)](https://www.espressif.com/en/products/socs/esp32)
 [![IoT: Blynk](https://img.shields.io/badge/IoT-Blynk-23CC71.svg)](https://blynk.io/)
-[![Status: In Progress](https://img.shields.io/badge/Status-Day%202%20%E2%80%94%20Pump%20%26%20Blynk%20Working-brightgreen)]()
+[![Status: Complete](https://img.shields.io/badge/Status-Day%203%20%E2%80%94%20Bench%20Prototype%20Complete-brightgreen)]()
 [![Made with: Markdown](https://img.shields.io/badge/Docs-Markdown-000000.svg)]()
 
 <p align="center">
@@ -163,14 +163,14 @@ Detailed logic: [`docs/circuit.md`](docs/circuit.md) and [`docs/firmware-setup.m
 
 | Feature | Status | Notes |
 |---------|--------|-------|
-| Auto watering on dry soil | 🔜 Planned | Threshold + hysteresis (next) |
-| Capacitive sensing (corrosion-proof) | ✅ Chosen | Not resistive forks |
-| Blynk live dashboard | ✅ **Working** | Web + App: V0 moisture gauge, V1 pump button — tested Day 02 |
+| Bench prototype (ESP + sensor + relay + pump + LCD on breadboard) | ✅ **Complete** | See [Day 03 photos](progress/day-03.md) — LCD `59%` proof |
+| Capacitive sensing (corrosion-proof) | ✅ Chosen | Not resistive forks — sensor in cup test `59%` |
+| Blynk live dashboard | ✅ **Working** | Web + App: V0 moisture gauge, V1 pump button — tested Day 02, now on bench Day 03 |
 | Manual override (Blynk relay switch → pump) | ✅ **Working** | `BLYNK_WRITE(V1)` → relay LOW/HIGH → pump ON/OFF verified |
 | Arduino IDE + ESP board bring-up | ✅ **Done** | Board package + driver + Blink test (GPIO2/D4) pass |
-| Breadboard & small tools | ✅ **Learned** | Rails, M-M/M-F jumpers, continuity — see [Day 02](progress/day-02.md) |
-| LCD local display (16×2 + I2C `0x27`) | ✅ **Checked** | `lcd.init()` + `System Loading` + `Motor is ON/OFF` mirror — Day 02 |
-| Capacitive sensor calibration | 🔜 Next | Dry/wet ADC in real soil |
+| Breadboard & small tools | ✅ **Done** | Full assembly Day 03: rails, M-M/M-F jumpers, 18650 isolate — 📸 [overview](docs/images/day-03-bench-overview.jpg) |
+| LCD local display (16×2 + I2C `0x27`) | ✅ **Live 59%** | `Moistire :59` on LCD — 📸 [close-up](docs/images/day-03-lcd-59-detail.jpg) |
+| Auto watering on dry soil (threshold + hysteresis) | 🔜 Next | Optional: `<30% ON / >60% OFF` |
 | Low-water / reservoir alert | 💡 Optional | Float switch on GPIO27 |
 | Data logging to cloud | 💡 Optional | Blynk history / Google Sheets |
 | Deep-sleep power saving | 💡 Future | For battery deployment |
@@ -309,9 +309,8 @@ Paste tokens into `firmware/plant-watering-esp32/plant-watering-esp32.ino` → S
 |-----|------|-------|-----|
 | **Day 01** | 2026-10-26 | Research + Inspiration + Materials Gathering (ESP32 variant decision) | [`progress/day-01.md`](progress/day-01.md) |
 | **Day 02** | **2026-10-29** | **Pump Motor & Relay Found · ESP Blink Test · LCD Check · Arduino IDE + Breadboard · Blynk Relay→Pump (WORKING)** | [`progress/day-02.md`](progress/day-02.md) · [video deep-dive](docs/videos/02-nodemcu-esp8266-blynk-update.md) |
-| Day 03 | — | Auto threshold + hysteresis + soil calibration | `TEMPLATE` |
-| Day 04 | — | Multi-sensor + LCD refinement | — |
-| Day 05 | — | Enclosure + field test | — |
+| **Day 03** | **2026-10-30** | **Bench Prototype COMPLETE ✅ — LCD `Moistire :59` + ESP + Sensor + Relay + Pump + Blynk Switch (Photos)** | [`progress/day-03.md`](progress/day-03.md) with [📸 Bench](docs/images/day-03-bench-overview.jpg) · [📸 Reference](docs/images/day-03-blynk-reference.jpg) · [📸 LCD 59%](docs/images/day-03-lcd-59-detail.jpg) |
+| Day 04 | — | Auto threshold + hysteresis + soil calibration (optional) | `TEMPLATE` |
 
 📓 **Log index + how to write a daily log:** [`progress/README.md`](progress/README.md)
 📄 **Daily template:** [`progress/TEMPLATE.md`](progress/TEMPLATE.md)
@@ -322,8 +321,8 @@ Paste tokens into `firmware/plant-watering-esp32/plant-watering-esp32.ino` → S
 
 - [x] **Day 01** — Study reference builds, define ESP32 route, gather BOM
 - [x] **Day 02 (2026-10-29)** — Pump & relay found, ESP Blink ✅, LCD `0x27` check ✅, Arduino IDE + breadboard learned, Blynk IoT web+app relay→pump **WORKING** ✅
-- [ ] **Day 03** — Auto threshold + hysteresis + real-soil ADC calibration (dry/wet) + photos
-- [ ] **Day 04** — Soil calibration logs + Blynk history + LCD multi-line UI
+- [x] **Day 03 (2026-10-30)** — **Bench prototype COMPLETE ✅** — ESP + sensor + relay + pump + LCD + breadboard assembled, LCD shows **`Moistire :59`**, Blynk `V1` switch → pump verified, photos documented
+- [ ] **Day 04** — Auto threshold + hysteresis + real-soil ADC calibration (dry/wet) + photos
 - [ ] **Day 05** — DHT11/22 environment compensation (optional)
 - [ ] **Day 06** — Reservoir low-water interlock + alerts
 - [ ] **Day 07** — Enclosure + cable management + long-run test (24–48h)
