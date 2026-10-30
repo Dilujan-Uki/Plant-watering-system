@@ -45,7 +45,33 @@
   - Blynk virtual pins for moisture %, pump state, mode
   - **Primary blueprint this repo follows** (ESP32 variant)
 
-> **Attribution note:** Circuit ideas and component selections above are credited to the original creators. This repo is an *original documentation + daily log* of rebuilding with ESP32, not a verbatim copy of their code.
+### 1.3 How to make a plant watering system with the Nodemcu ESP8266 board and the new Blynk update — SriTu Hobby (Day 02 Focus)
+
+- **Link:** https://www.youtube.com/watch?v=WLCR0r7rYi8
+- **Channel:** SriTu Hobby — published 2022-07-23, 292k views
+- **Length:** 08:03
+- **Stack:** NodeMCU ESP8266 + soil moisture sensor + 1-ch 5V relay + 16×2 LCD + I2C backpack + breadboard + 9V battery/clip + mini pump/pipe + new Blynk 2.0 (blynk.cloud:80)
+- **Companion article + source + wiring (full):** https://srituhobby.com/how-to-make-a-plant-watering-system-with-the-nodemcu-esp8266-board-and-the-new-blynk-update/
+- **Code highlights:**
+  ```cpp
+  #define sensor A0     // ESP8266 sole ADC
+  #define waterPump D3  // relay IN — active-LOW
+  LiquidCrystal_I2C lcd(0x27, 16, 2);
+  BlynkTimer timer;
+  BLYNK_WRITE(V1){ Relay=param.asInt(); digitalWrite(waterPump, Relay?LOW:HIGH); }
+  void soilMoistureSensor(){ int v=analogRead(sensor); v=map(v,0,1024,0,100); v=(v-100)*-1; Blynk.virtualWrite(V0,v); }
+  // Blynk flow: Template → Datastreams V0 (moisture 0-100), V1 (pump 0/1) → Web Dashboard Gauge+Button → Auth token
+  ```
+- **What it taught (Day 02 verified):**
+  - **New Blynk 2.0 workflow** — blynk.cloud Template + Datastreams + Web Dashboard + Mobile parity (replaces old Blynk).
+  - **Relay as Blynk switch pattern** — `BLYNK_WRITE(V1)` → `digitalWrite(relay, ...)` → pump; LCD mirrors `Motor is ON/OFF`.
+  - **Blink & I2C LCD check pattern** — upload Blink (LED_BUILTIN/GPIO2/D4), scan I2C `0x27`, call `lcd.init()/lcd.backlight()/lcd.print()` before integrating.
+  - **Breadboard basics** — VIN/GND power rails, center trench for NodeMCU, M-M vs M-F jumpers.
+  - **Pump power hygiene** — pump on separate 9V/5V PSU with common GND + relay NO/COM; MCU USB only for logic.
+  - **ESP8266 vs ESP32 takeaway:** ESP8266 one ADC (`A0`) is enough for single pump; ESP32 multi-ADC needed for expansion; code ports with pin renames.
+- **Deep dive in this repo:** [`docs/videos/02-nodemcu-esp8266-blynk-update.md`](videos/02-nodemcu-esp8266-blynk-update.md)
+
+> **Attribution note:** Circuit ideas and component selections above are credited to the original creators. This repo is an *original documentation + daily log* of rebuilding with ESP32/ESP8266, not a verbatim copy of their code.
 
 ---
 

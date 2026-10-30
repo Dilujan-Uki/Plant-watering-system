@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Platform: ESP32](https://img.shields.io/badge/Platform-ESP32-blue.svg)](https://www.espressif.com/en/products/socs/esp32)
 [![IoT: Blynk](https://img.shields.io/badge/IoT-Blynk-23CC71.svg)](https://blynk.io/)
-[![Status: In Progress](https://img.shields.io/badge/Status-Day%201%20%E2%80%94%20Research%20%26%20Gathering-orange)]()
+[![Status: In Progress](https://img.shields.io/badge/Status-Day%202%20%E2%80%94%20Pump%20%26%20Blynk%20Working-brightgreen)]()
 [![Made with: Markdown](https://img.shields.io/badge/Docs-Markdown-000000.svg)]()
 
 <p align="center">
@@ -71,14 +71,15 @@ An automatic plant watering system is a **closed-loop irrigation system** that:
 - 🏠 **Convenience** — perfect for travel, offices, and urban gardening
 - 📊 **Data-driven** — learn your plant’s actual needs instead of guessing
 
-**Two videos that inspired this build:**
+**Three videos that inspired this build:**
 
 | # | Video | Channel | What I Learned |
 |---|-------|---------|----------------|
 | 1 | [DIY Automatic Plant Watering System Using Arduino](https://www.youtube.com/watch?v=9x3YIiROZ3s) — Simple Circuits | Arduino + soil sensor + relay + pump. Core idea: `dry → pump ON`, `wet → pump OFF`. Critical lesson: **never power the pump from the MCU** — use separate battery/supply. | Baseline circuit + pump isolation |
 | 2 | [How to make a plant watering system with ESP32 board and Blynk app](https://www.youtube.com/watch?v=Ix3a3ThsHfA) — SriTu Hobby | ESP32 + capacitive sensor + LCD (I2C) + relay + Blynk. Shows cloud monitoring, local display, and threshold tuning. | ESP32 + IoT (Blynk) architecture I will follow |
+| 3 | [How to make a plant watering system with the Nodemcu ESP8266 board and the new Blynk update](https://www.youtube.com/watch?v=WLCR0r7rYi8) — SriTu Hobby | NodeMCU ESP8266 + soil sensor + relay + LCD + new Blynk 2.0 (V0 moisture, V1 pump). Includes blink test, LCD check, Arduino IDE, breadboard, Blynk relay→pump switch. | ESP8266 fallback + Blynk 2.0 workflow + **Day 02 working bench test** |
 
-> 📝 Full notes on both videos are in [`docs/references.md`](docs/references.md).
+> 📝 Full notes on all videos are in [`docs/references.md`](docs/references.md) and [`docs/videos/02-nodemcu-esp8266-blynk-update.md`](docs/videos/02-nodemcu-esp8266-blynk-update.md).
 
 ---
 
@@ -162,11 +163,14 @@ Detailed logic: [`docs/circuit.md`](docs/circuit.md) and [`docs/firmware-setup.m
 
 | Feature | Status | Notes |
 |---------|--------|-------|
-| Auto watering on dry soil | 🔜 Planned | Threshold + hysteresis |
+| Auto watering on dry soil | 🔜 Planned | Threshold + hysteresis (next) |
 | Capacitive sensing (corrosion-proof) | ✅ Chosen | Not resistive forks |
-| Blynk live dashboard | 🔜 Planned | Moisture gauge + pump LED |
-| Manual override button | 🔜 Planned | In app + physical push-button |
-| OLED / LCD local display | 💡 Optional | SSD1306 0.96" or 16×2 I2C |
+| Blynk live dashboard | ✅ **Working** | Web + App: V0 moisture gauge, V1 pump button — tested Day 02 |
+| Manual override (Blynk relay switch → pump) | ✅ **Working** | `BLYNK_WRITE(V1)` → relay LOW/HIGH → pump ON/OFF verified |
+| Arduino IDE + ESP board bring-up | ✅ **Done** | Board package + driver + Blink test (GPIO2/D4) pass |
+| Breadboard & small tools | ✅ **Learned** | Rails, M-M/M-F jumpers, continuity — see [Day 02](progress/day-02.md) |
+| LCD local display (16×2 + I2C `0x27`) | ✅ **Checked** | `lcd.init()` + `System Loading` + `Motor is ON/OFF` mirror — Day 02 |
+| Capacitive sensor calibration | 🔜 Next | Dry/wet ADC in real soil |
 | Low-water / reservoir alert | 💡 Optional | Float switch on GPIO27 |
 | Data logging to cloud | 💡 Optional | Blynk history / Google Sheets |
 | Deep-sleep power saving | 💡 Future | For battery deployment |
@@ -304,9 +308,9 @@ Paste tokens into `firmware/plant-watering-esp32/plant-watering-esp32.ino` → S
 | Day | Date | Focus | Log |
 |-----|------|-------|-----|
 | **Day 01** | 2026-10-26 | Research + Inspiration + Materials Gathering (ESP32 variant decision) | [`progress/day-01.md`](progress/day-01.md) |
-| Day 02 | — | *Next: Breadboard wiring + first ADC test* | `TEMPLATE` |
-| Day 03 | — | Blynk setup + remote monitoring | — |
-| Day 04 | — | Pump integration + threshold tuning | — |
+| **Day 02** | **2026-10-29** | **Pump Motor & Relay Found · ESP Blink Test · LCD Check · Arduino IDE + Breadboard · Blynk Relay→Pump (WORKING)** | [`progress/day-02.md`](progress/day-02.md) · [video deep-dive](docs/videos/02-nodemcu-esp8266-blynk-update.md) |
+| Day 03 | — | Auto threshold + hysteresis + soil calibration | `TEMPLATE` |
+| Day 04 | — | Multi-sensor + LCD refinement | — |
 | Day 05 | — | Enclosure + field test | — |
 
 📓 **Log index + how to write a daily log:** [`progress/README.md`](progress/README.md)
@@ -317,15 +321,14 @@ Paste tokens into `firmware/plant-watering-esp32/plant-watering-esp32.ino` → S
 ## 🗺️ Roadmap
 
 - [x] **Day 01** — Study reference builds, define ESP32 route, gather BOM
-- [ ] **Day 02** — Breadboard wiring + validate soil sensor ADC values (dry/wet)
-- [ ] **Day 03** — Blynk IoT dashboard (live moisture + pump status)
-- [ ] **Day 04** — Relay + pump integration with hysteresis & safety caps
-- [ ] **Day 05** — LCD/OLED local feedback + manual button
-- [ ] **Day 06** — DHT11/22 environment compensation
-- [ ] **Day 07** — Reservoir low-water interlock + alerts
-- [ ] **Day 08** — Enclosure, cable management, long-run test (24–48h)
-- [ ] **Day 09** — Power optimization (deep-sleep) + documentation polish
-- [ ] **Day 10** — Demo video + final README screenshots
+- [x] **Day 02 (2026-10-29)** — Pump & relay found, ESP Blink ✅, LCD `0x27` check ✅, Arduino IDE + breadboard learned, Blynk IoT web+app relay→pump **WORKING** ✅
+- [ ] **Day 03** — Auto threshold + hysteresis + real-soil ADC calibration (dry/wet) + photos
+- [ ] **Day 04** — Soil calibration logs + Blynk history + LCD multi-line UI
+- [ ] **Day 05** — DHT11/22 environment compensation (optional)
+- [ ] **Day 06** — Reservoir low-water interlock + alerts
+- [ ] **Day 07** — Enclosure + cable management + long-run test (24–48h)
+- [ ] **Day 08** — Power optimization (deep-sleep) + documentation polish
+- [ ] **Day 09** — Demo video + final README screenshots + release
 
 Stretch: Multi-zone (2–4 plants), Google Sheets logging via Apps Script, MQTT/Home Assistant, solar power.
 
@@ -351,7 +354,8 @@ Stretch: Multi-zone (2–4 plants), Google Sheets logging via Apps Script, MQTT/
 Full annotated list: [`docs/references.md`](docs/references.md)
 
 - 🎥 [DIY Automatic Plant Watering System Using Arduino](https://www.youtube.com/watch?v=9x3YIiROZ3s) — Simple Circuits (Arduino baseline build)
-- 🎥 [How to make a plant watering system with ESP32 board and Blynk app](https://www.youtube.com/watch?v=Ix3a3ThsHfA) — SriTu Hobby (ESP32 + Blynk + LCD/relay — primary blueprint for this repo)
+- 🎥 [How to make a plant watering system with ESP32 board and Blynk app](https://www.youtube.com/watch?v=Ix3a3ThsHfA) — SriTu Hobby (ESP32 + Blynk + LCD/relay — primary blueprint)
+- 🎥 [How to make a plant watering system with the Nodemcu ESP8266 board and the new Blynk update](https://www.youtube.com/watch?v=WLCR0r7rYi8) — SriTu Hobby (ESP8266 + new Blynk 2.0 + Blink + LCD + breadboard + App relay→pump — **Day 02 working test**) — [deep dive](docs/videos/02-nodemcu-esp8266-blynk-update.md) + [article](https://srituhobby.com/how-to-make-a-plant-watering-system-with-the-nodemcu-esp8266-board-and-the-new-blynk-update/)
 - 📖 SriTu Hobby Write-up: [srituhobby.com — Plant Watering System with ESP32 & Blynk](https://srituhobby.com/how-to-make-a-plant-watering-system-with-esp32-board-and-blynk-app/)
 - 📖 Espressif — [ESP32 ADC & Wi-Fi notes (use ADC1 with Wi-Fi)](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/adc.html)
 - 📖 Blynk Docs — [ESP32 Quickstart](https://docs.blynk.io/en/getting-started/what-do-i-need-to-blynk) & Virtual Pins
