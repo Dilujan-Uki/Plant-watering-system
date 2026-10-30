@@ -20,10 +20,10 @@
 | # | Date | Focus | Status | Link |
 |---|------|-------|--------|------|
 | **01** | **2026-10-26** | **Research & Inspiration: studied 2 videos (Arduino baseline + ESP32/Blynk), learned IoT basics, gathered ESP32 materials** | ✅ Done | [day-01.md](day-01.md) |
-| 02 | — | Breadboard wiring + first ADC test (dry/wet calibration) | ⬜ Next | `day-02.md` (use TEMPLATE) |
-| 03 | — | Blynk cloud setup + live monitoring | ⬜ Planned | — |
-| 04 | — | Pump + relay integration + hysteresis & safety caps | ⬜ Planned | — |
-| 05 | — | Local display (OLED/LCD) + manual button | ⬜ Planned | — |
+| **02** | **2026-10-29** | **Pump motor & relay module found · ESP Blink test · LCD I2C display check · Arduino IDE & breadboard basics · Blynk IoT web + app relay→pump switch (WORKING)** | ✅ Done | [day-02.md](day-02.md) · [video notes](../docs/videos/02-nodemcu-esp8266-blynk-update.md) |
+| 03 | — | Auto threshold + hysteresis + real-soil calibration | ⬜ Next | `day-03.md` (use TEMPLATE) |
+| 04 | — | Multi-sensor + LCD refinement | ⬜ Planned | — |
+| 05 | — | Enclosure + field test | ⬜ Planned | — |
 | 06 | — | Environment compensation (DHT) + field tuning | ⬜ Planned | — |
 | 07 | — | Enclosure + cable management + reservoir interlock | ⬜ Planned | — |
 | 08 | — | Deep-sleep power saving + long-run test (24–48 h) | ⬜ Planned | — |
